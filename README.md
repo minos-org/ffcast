@@ -58,6 +58,6 @@
 * Doesn't require bash, any posix shell is enough
 * Geometry options were removed
 * Options must be separated by `-`, `-vv -s` instead of `-vvs`
-* No multiple `ws` options allowed, `-s` is preferred over `-s`
+* No multiple `ws` options allowed, `-s` is preferred over `-w`
 * Default file is a random 8 character string with a .mkv suffix saved to $HOME
-* It uses notification when available
+* Uses notifications when available
