@@ -25,7 +25,7 @@
 ### Requirements
 
 * POSIX compatible shell 
-* ffmpeg
+* avconv || ffmpeg || byzanz-record || recordmydesktop
 * xdpyinfo - for the -x option
 * xrectsel - for the -s option (included)
 * xwininfo - for the -w option
@@ -61,4 +61,4 @@
 * No multiple `ws` options allowed, `-s` is preferred over `-w`
 * Default file is a random 8 character string with a .mkv suffix saved to $HOME
 * Uses notifications when available
-* Support additionally avconv
+* Support avconv
