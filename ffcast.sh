@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-cast_cmd_pattern="ffmpeg,byzanz-record,recordmydesktop"
+cast_cmd_pattern="avconv,ffmpeg,byzanz-record,recordmydesktop"
 modulus=2; borderless=1; verbosity=0
 
 #---
@@ -355,7 +355,7 @@ if [ ! -z "$1" ]; then
     else
         case $cast_cmd in
             byzanz-record)   x11grab_opts="--x="$_x" --y="$_y" --width="$w" --height="$h" --display="$DISPLAY"" ;;
-            ffmpeg)          x11grab_opts="-f x11grab -s "${w}x$h" -i "$DISPLAY+$_x,$_y"" ;;
+            avconv|ffmpeg)   x11grab_opts="-f x11grab -s "${w}x$h" -i "$DISPLAY+$_x,$_y"" ;;
             recordmydesktop) x11grab_opts="-display "$DISPLAY" -width "$w" -height "$h""
                              # As of recordMyDesktop 0.3.8.1, x- and y-offsets default to 0,
                              # but -x and -y don't accept 0 as an argument. #FAIL

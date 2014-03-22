@@ -61,3 +61,4 @@
 * No multiple `ws` options allowed, `-s` is preferred over `-w`
 * Default file is a random 8 character string with a .mkv suffix saved to $HOME
 * Uses notifications when available
+* Support additionally avconv
