@@ -48,8 +48,8 @@
    $ ffcast -w #record a selected window and saves to $HOME
    $ ffcast -k #stop latest ffcast started session
    $ ffcast -w % echo %wx%h+%x+%y # print width, hight, x and y coordinates
-   $ ffcast.sh -vv -s ffmpeg -r 25 -- -f alsa -i hw:0 -vcodec libx264 cast.mkv
-   $ ffcast.sh -vv -s ffmpeg -follow_mouse centered -r 25 -- -f alsa -i hw:0 -vcodec libx264 cast.mkv
+   $ ffcast -vv -s ffmpeg -r 25 -- -f alsa -i hw:0 -vcodec libx264 cast.mkv
+   $ ffcast -vv -s ffmpeg -follow_mouse centered -r 25 -- -f alsa -i hw:0 -vcodec libx264 cast.mkv
    $ ffcast -w recordmydesktop -- -o cast.ogv
    ```
 
