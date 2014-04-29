@@ -4,31 +4,24 @@ _ffcast()
     local cur prev words cword
     _init_completion || return
 
-    COMMANDS="ffmpeg byzanz-record recordmydesktop"
-    OPTS="-s -w -x -b -m -p -l -q -v -h --"
+    if ! command -v "ffcast" >/dev/null 2>&1; then
+        return
+    fi
 
-    #case "${prev}" in
-        #pattern1)
-           #_filedir
-          #return 0 
-          #;;
-        #pattern2)
-            #_filedir
-            #return 0
-            #;;
-    #esac
+    COMMANDS="$(ffcast -l)"
+    OPTS="$(ffcast -h | awk '/ -. / {print $1}') --"
+
+    case "${COMMANDS}" in
+        *${prev}*) return 0; ;;
+    esac
 
     #general options
     case "${cur}" in
-        -*)
-            COMPREPLY=( $( compgen -W "$OPTS" -- $cur ))
-            ;;
-        *)
-            COMPREPLY=( $( compgen -W "$COMMANDS" -- $cur ))
-            ;;
+        -*) COMPREPLY=($(compgen -W "$OPTS" -- ${cur})) ;;
+        *)  COMPREPLY=($(compgen -W "$COMMANDS" -- ${cur})) ;;
     esac
 } &&
-complete -F _ffcast ffcast ffcast2
+complete -F _ffcast ffcast2 ffcast 
 
 #push this file to /usr/share/bash-completion/completions/
 #as ffcast and ffcast2

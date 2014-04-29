@@ -194,6 +194,7 @@ _usage()
     printf "    %s\\n" "-m <n>       trim region to be divisible by n"
     printf "    %s\\n" "-p           print region geometry only"
     printf "    %s\\n" "-l           list recognized screencast commands"
+    printf "    %s\\n" "-k           stop previous instance"
     printf "    %s\\n" "-q           be less verbose"
     printf "    %s\\n" "-v           be more verbose"
     printf "    %s\\n" "-h           print this help and exit"
