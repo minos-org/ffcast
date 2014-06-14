@@ -11,7 +11,7 @@
 ### On Ubuntu
 
    ```
-   $ sudo add-apt-repository ppa:chilicuil/sucklesstools
+   $ sudo add-apt-repository ppa:minos-archive/main
    $ sudo apt-get update
    $ sudo apt-get install ffcast
    ```
