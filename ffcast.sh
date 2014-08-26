@@ -380,7 +380,7 @@ if [ ! -z "${1}" ]; then
             cast_args="${cast_args} ${1}"
             shift
         done
-        if shift; then
+        if "${1}"; then
             cast_args="${cast_args} ${x11grab_opts} ${@}"
         else
             cast_args="${x11grab_opts} ${cast_args}"
