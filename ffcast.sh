@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 cast_cmd_pattern="avconv,ffmpeg,byzanz-record,recordmydesktop"
-modulus="2"; borderless="1"; verbosity="0"
+modulus="2"; frame="0"; verbosity="0"
 
 #---
 # Functions
@@ -145,7 +145,12 @@ _select_region_get_corners() {
 _select_window_get_corners() {
     _notify "[+] Select" "a target window"
 
-    _select_window_get_corners_var_output="$(LC_ALL=C xwininfo)"
+    if [ X"${frame}" = X"1" ]; then
+        _select_window_get_corners_var_output="$(LC_ALL=C xwininfo -frame)"
+    else
+        _select_window_get_corners_var_output="$(LC_ALL=C xwininfo)"
+    fi
+
     _select_window_get_corners_var_output_corners="$(printf "%s\\n" "${_select_window_get_corners_var_output}" \
         |  awk '/Corners/ {for (i=2; i<NF; i++) printf $i " "; print $NF}')"
     _select_window_get_corners_var_x="$(printf "%s\\n" "${_select_window_get_corners_var_output_corners}" \
@@ -187,16 +192,17 @@ _usage()
     printf "  %s\\n" "$(expr "${0}" : '.*/\([^/]*\)') [options] [command [args] [--] [args]]"
     printf "\\n"
     printf "  %s\\n" "Options:"
+    printf "    %s\\n" "-f           include window frame hereafter"
     printf "    %s\\n" "-s           select a rectangular region by mouse"
     printf "    %s\\n" "-w           select a window by mouse click"
     printf "    %s\\n" "-x <n|list>  select the Xinerama head of id n"
-    printf "    %s\\n" "-b           include window borders hereafter"
+    #printf "    %s\\n" "-b           include window borders hereafter"
     printf "    %s\\n" "-m <n>       trim region to be divisible by n"
     printf "    %s\\n" "-p           print region geometry only"
-    printf "    %s\\n" "-l           list recognized screencast commands"
-    printf "    %s\\n" "-k           stop previous instance"
     printf "    %s\\n" "-q           be less verbose"
     printf "    %s\\n" "-v           be more verbose"
+    printf "    %s\\n" "-l           list recognized screencast commands"
+    printf "    %s\\n" "-k           stop previous instance"
     printf "    %s\\n" "-h           print this help and exit"
     printf "\\n"
     printf "  %s\\n" "If no region-selecting argument is passed, select fullscreen."
@@ -223,7 +229,8 @@ for var in "${@}"; do #parse options
              ;;
         -s)  shift; region_select_action="s,${region_select_action}" ;;
         -w)  shift; region_select_action="w,${region_select_action}" ;;
-        -b)  shift; region_select_action="b,${region_select_action}" ;;
+        #-b)  shift; region_select_action="b,${region_select_action}" ;;
+        -f)  shift; region_select_action="f,${region_select_action}" ;;
         -p)  shift; print_geometry_only="1" ;;
         -q*) shift; verbosity="$(expr "${verbosity}" - "$(expr "${#var}" + 1)" )" || : ;;
         -v*) shift; verbosity="$(expr "${verbosity}" + "$(expr "${#var}" - 1)" )" || : ;;
@@ -288,17 +295,20 @@ done
 while [ "${region_select_action}" ]; do
     region_select_action_option="${region_select_action%%,*}"
     case "${region_select_action_option}" in
-        's') corners_list="$(_select_region_get_corners)-${corners_list}"
-             _debug "corners: %s" "$(printf "%s" "${corners_list}" | cut -d'-' -f1)"
-             break ;;
-        'w') corners_list="$(_select_window_get_corners)-${corners_list}"
-             _debug "corners: %s" "$(printf "%s" "${corners_list}" | cut -d'-' -f1)"
-             break ;;
-        'b') borderless="0"
-             _verbose "windows: now including borders" ;;
+        's') select="region" ;;
+        'w') select="window" ;;
+        #'b') border="1"; _verbose "windows: now including borders"              ;;
+        'f') frame="1";  _verbose "windows: now including window manager frame" ;;
     esac
     [ X"${region_select_action}" = X"${region_select_action_option}" ] && region_select_action="" || region_select_action="${region_select_action#*,}"
 done
+
+case "${select}" in
+    region) corners_list="$(_select_region_get_corners)-${corners_list}"
+            _debug "corners: %s" "$(printf "%s" "${corners_list}" | cut -d'-' -f1)"; break ;;
+    window) corners_list="$(_select_window_get_corners)-${corners_list}"
+            _debug "corners: %s" "$(printf "%s" "${corners_list}" | cut -d'-' -f1)"; break ;;
+esac
 
 #full screen mode
 [ -z "${corners_list}" ] && corners_list="0,0 0,0"
