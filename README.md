@@ -28,25 +28,25 @@
 * avconv || ffmpeg || byzanz-record || recordmydesktop
 * xdpyinfo - for the -x option
 * xrectsel - for the -s option (included)
-* xwininfo - for the -w option
-
+* xwininfo - for the -w and -f options
 * xrectsel
  * libX11
 
 ## Usage
 
    ```
-   ffcast [-l|-s|-w|-k|-x <n|list>|-b|-m|-p|-q|-v|-h] [command [args] [--] [args]]"
+   ffcast [-l|-s|-w|-f|-k|-x <n|list>|-m <n>|-p|-q|-v|-h] [command [args] [--] [args]]"
    ```
 
 ### Examples
 
    ```
-   $ ffcast -h #show help
-   $ ffcast    #record fullscreen and saves to $HOME
-   $ ffcast -s #record a region selected with mouse and saves to $HOME
-   $ ffcast -w #record a selected window and saves to $HOME
-   $ ffcast -k #stop latest ffcast started session
+   $ ffcast -h    #show help
+   $ ffcast       #record fullscreen and save it to $HOME
+   $ ffcast -s    #record a region selected with mouse and save it to $HOME
+   $ ffcast -w    #record a selected window and save it to $HOME
+   $ ffcast -f -w #record a selected window including window frames and save it to $HOME
+   $ ffcast -k    #stop latest ffcast started session
    $ ffcast -w % echo %wx%h+%x+%y # print width, hight, x and y coordinates
    $ ffcast -vv -s ffmpeg -r 25 -- -f alsa -i hw:0 -vcodec libx264 cast.mkv
    $ ffcast -vv -s ffmpeg -follow_mouse centered -r 25 -- -f alsa -i hw:0 -vcodec libx264 cast.mkv
