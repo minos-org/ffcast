@@ -27,9 +27,9 @@ then executes the resultant command line.
 
 =over 4
 
-=item B<-b>
+=item B<-f>
 
-Include borders of windows to be selected.
+Include window frame in the selected application.
 
 =item B<-h>
 
@@ -120,7 +120,7 @@ A literal %
 Use the recognized command B<ffmpeg> in the B<double hyphen syntax>, with
 debug messages printed to stderr:
 
-    ffcast -vv -s ffmpeg -r 30 -- -vcodec libx264 out.mkv
+    ffcast -vv -s ffmpeg -r 30 -vcodec libx264 out.mkv
 
 Screencast fullscreen on display C<:1>, using the default B<ffmpeg> command
 line:
