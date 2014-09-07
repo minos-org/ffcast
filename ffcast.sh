@@ -179,14 +179,12 @@ _kill() {
     done
 }
 
-_notify ()
-{
+_notify() {
     if ! command -v "notify-send" >/dev/null; then _msg "%s %s" "${@}"; fi
     [ X"${TERM}" = X"linux" ] && notify-send -t 1000 "${@}" || _msg "%s %s" "${@}"
 }
 
-_usage()
-{
+_usage() {
     printf "%s\\n" "Usage:"
     printf "  %s\\n" "$(expr "${0}" : '.*/\([^/]*\)') [options] % [command [args]]"
     printf "  %s\\n" "$(expr "${0}" : '.*/\([^/]*\)') [options] [command [args] [--] [args]]"
@@ -366,13 +364,13 @@ if [ ! -z "${1}" ]; then
         done
     else
         case "${cast_cmd}" in
-            byzanz-record)   x11grab_opts="--x="${_x}" --y="${_y}" --width="${w}" --height="${h}" --display="${DISPLAY}"" ;;
-            avconv|ffmpeg)   x11grab_opts="-f x11grab -s "${w}x${h}" -i "${DISPLAY}+${_x},${_y}"" ;;
-            recordmydesktop) x11grab_opts="-display "${DISPLAY}" -width "${w}" -height "${h}""
+            byzanz-record)   x11grab_opts="--x=${_x} --y=${_y} --width=${w} --height=${h} --display=${DISPLAY}" ;;
+            avconv|ffmpeg)   x11grab_opts="-f x11grab -s ${w}x${h} -i ${DISPLAY}+${_x},${_y}" ;;
+            recordmydesktop) x11grab_opts="-display ${DISPLAY} -width ${w} -height ${h}"
                              # As of recordMyDesktop 0.3.8.1, x- and y-offsets default to 0,
                              # but -x and -y don't accept 0 as an argument. #FAIL
-                             expr "${_x}" + 0 >/dev/null 2>/dev/null && x11grab_opts="${x11grab_opts}"" ""-x "${_x}""
-                             expr "${_y}" + 0 >/dev/null 2>/dev/null && x11grab_opts="${x11grab_opts}"" ""-y "${_y}"" ;;
+                             expr "${_x}" + 0 >/dev/null 2>/dev/null && x11grab_opts="${x11grab_opts} -x ${_x}"
+                             expr "${_y}" + 0 >/dev/null 2>/dev/null && x11grab_opts="${x11grab_opts} -y ${_y}" ;;
             *) _error "invalid cast command: \`%s'" "${cast_cmd}" ;;
         esac
 
@@ -383,7 +381,7 @@ if [ ! -z "${1}" ]; then
         if [ -z "${1}" ]; then
             cast_args="${x11grab_opts} ${cast_args}"
         else
-            cast_args="${cast_args} ${x11grab_opts} ${@}"
+            shift; cast_args="${cast_args} ${x11grab_opts} ${@}"
         fi
     fi
 else
@@ -393,14 +391,29 @@ else
             break
         fi
     done
-    [ -z "${cast_cmd}" ] && _error "none supported front-ends found!, install at least one of the following: ${cast_cmd_pattern}"
-    cast_file="${HOME}/$(</dev/urandom tr -dc A-Za-z0-9 | head -c 8).mkv"
-    cast_args="-r 25 -f x11grab -s "${w}x${h}" -i "${DISPLAY}+${_x},${_y}" -vcodec libx264 "${cast_file}""
+    [ -z "${cast_cmd}" ] && _error "no supported front-end found!, install at least one of the following: ${cast_cmd_pattern}"
+    cast_file="${HOME}/$(</dev/urandom tr -dc A-Za-z0-9 | head -c 8)"
+
+    case "${cast_cmd}" in
+        byzanz-record)   cast_file="${cast_file}.gif"
+                         cast_args="--x=${_x} --y=${_y} --width=${w} --height=${h} --display=${DISPLAY} ${cast_file}"     ;;
+        avconv|ffmpeg)   cast_file="${cast_file}.mkv"
+                         cast_args="-f x11grab -s ${w}x${h} -i ${DISPLAY}+${_x},${_y} -vcodec libx264 -r 25 ${cast_file}" ;;
+        recordmydesktop) cast_file="${cast_file}.ogv"; cast_args="-fps 25 -display ${DISPLAY} -width ${w} -height ${h}"
+                         # As of recordMyDesktop 0.3.8.1, x- and y-offsets default to 0,
+                         # but -x and -y don't accept 0 as an argument. #FAIL
+                         expr "${_x}" + 0 >/dev/null 2>/dev/null && cast_args="${cast_args} -x ${_x}"
+                         expr "${_y}" + 0 >/dev/null 2>/dev/null && cast_args="${cast_args} -y ${_y} ${cast_file}" ;;
+    esac
 fi
 
 _debug_run "${cast_cmd}" ${cast_args}
-
 [ -n "${use_format_string}" ] && exit
-[ -z "${cast_file}" ] && _notify "[+] Done" "${cast_cmd} ${cast_args}" || _notify "[+] Done" "${cast_file}"
+
+if [ -z "${cast_file}" ]; then
+    _notify "[+] Done" "${cast_cmd} ${cast_args}"
+else
+    [ -f "${cast_file}" ] && _notify "[+] Done" "${cast_file}" || _notify "[-] Error" "re-run ffcast with -vvv and review the output"
+fi
 
 # vim: set ts=8 sw=4 tw=0 ft=sh : 
