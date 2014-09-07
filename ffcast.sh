@@ -78,7 +78,6 @@ _warn() {
 }
 
 _error() {
-    [ "${verbosity}" -ge "1" ] || return 0
     __msg "error: " "${@}" >&2
     exit 1
 }
@@ -201,7 +200,7 @@ _usage() {
     printf "    %s\\n" "-v           be more verbose"
     printf "    %s\\n" "-l           list recognized screencast commands"
     printf "    %s\\n" "-k           stop previous instance"
-    printf "    %s\\n" "-h           print this help and exit"
+    printf "    %s\\n" "-h|--help    print this help and exit"
     printf "\\n"
     printf "  %s\\n" "If no region-selecting argument is passed, select fullscreen."
     exit 0
@@ -212,7 +211,7 @@ _usage() {
 
 for var in "${@}"; do #parse options
     case "${var}" in
-        -h)  _usage ;;
+        -h|--help) _usage ;;
         -l)  _list_cast_cmds; exit 0;;
         -k)  _kill; exit 0;;
         -m)  if [ "${#}" -gt "1" ]; then

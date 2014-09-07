@@ -27,11 +27,7 @@ then executes the resultant command line.
 
 =over 4
 
-=item B<-f>
-
-Include window frame in the selected application.
-
-=item B<-h>
+=item B<-h,--help>
 
 Print help message, then exit.
 
@@ -39,33 +35,37 @@ Print help message, then exit.
 
 List commands recognized by the B<double hyphen syntax>, then exit.
 
+=item B<-p>
+
+Print geometry of the selected region and exit without executing
+I<E<lt>commandE<gt>>. The dimensions are not trimmed.
+
+=item B<-s>
+
+Prompt to select a region.
+
+=item B<-w>
+
+Prompt to select a window.
+
+=item B<-f>
+
+Include window frame in the selected application.
+
+=item B<-v>
+
+Be more verbose.
+
+=item B<-q>
+
+Be less verbose.
+
 =item B<-m> I<E<lt>nE<gt>>
 
 Trim both dimensions of the region to be divisible by I<E<lt>nE<gt>>. By
 default, both dimensions are trimmed to be divisible by C<2>, which is
 required by B<x264>. A value of C<16> may help when encoding to most video
 codecs. A value of C<1> disables trimming.
-
-=item B<-p>
-
-Print geometry of the selected region and exit without executing
-I<E<lt>commandE<gt>>. The dimensions are not trimmed.
-
-=item B<-q>
-
-Be less verbose.
-
-=item B<-s>
-
-Prompt to select a region.
-
-=item B<-v>
-
-Be more verbose.
-
-=item B<-w>
-
-Prompt to select a window.
 
 =item B<-x> I<E<lt>nE<gt>>
 
@@ -123,11 +123,11 @@ debug messages printed to stderr:
     ffcast -vv -s ffmpeg -r 30 -vcodec libx264 out.mkv
 
 Screencast fullscreen on display C<:1>, using the default B<ffmpeg> command
-line:
+line and saving to a B<mkv> file in B<$HOME>:
 
     DISPLAY=:1 ffcast
 
-=head1 AUTHOR
+=head1 ORIGINAL AUTHOR
 
 lolilolicon E<lt>lolilolicon@gmail.comE<gt>
 
@@ -137,7 +137,7 @@ Javier Lopez E<lt>m@javier.ioE<gt>
 
 =head1 SEE ALSO
 
-B<ffmpeg(1)>, B<byzanz-record(1)>, B<recordmydesktop(1)>, B<X(7)>
+B<ffmpeg(1)>, B<avconv(1)>, B<byzanz-record(1)>, B<recordmydesktop(1)>, B<X(7)>
 
 =for comment
 vim:ft=pod:spell:spelllang=en_us:cc=78:
