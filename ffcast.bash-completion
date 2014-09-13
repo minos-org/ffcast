@@ -9,7 +9,7 @@ _ffcast()
     fi
 
     COMMANDS="$(ffcast -l)"
-    OPTS="$(ffcast -h | awk '/ -. / {print $1}') --"
+    OPTS="$(ffcast -h |  awk '/ -.* / {gsub(/,/,"");print $1}')"
 
     case "${COMMANDS}" in
         *${prev}*) return 0; ;;
