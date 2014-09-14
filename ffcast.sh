@@ -186,7 +186,7 @@ _notify() {
 _usage() {
     printf "%s\\n" "Usage: $(expr "${0}" : '.*/\([^/]*\)') [options] % [command [args]]"
     printf "%s\\n" "       $(expr "${0}" : '.*/\([^/]*\)') [options] [command [args] [--] [args]]"
-    printf "%s\\n" "Record screencasts using Unix utilities."
+    printf "%s\\n" "Screen recording wrapper for Unix cli utilities."
     printf "\\n"
     printf "%s\\n" "Options:"
     printf "%s\\n" "  -f           include window frame hereafter"
