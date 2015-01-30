@@ -8,12 +8,11 @@
 
 ## Quick start
 
-### On Ubuntu
+### On Ubuntu (only LTS versions)
 
    ```
    $ sudo add-apt-repository ppa:minos-archive/main
-   $ sudo apt-get update
-   $ sudo apt-get install ffcast
+   $ sudo apt-get update && sudo apt-get install ffcast
    ```
 
 ### On other Linux distributions + BSD
