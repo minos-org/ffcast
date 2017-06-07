@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 #
-# FFcast, http://github.com/chilicuil/ffcast
+# FFcast, http://github.com/javier-lopez/ffcast
 # Copyright (C) 2011  lolilolicon  <lolilolicon@gmail.com>
-# Copyright (C) 2014  Javier Lopez <m@javier.io>
+# Copyright (C) 2014  Javier López <m@javier.io>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

@@ -1,6 +1,6 @@
 ## ffcast
 
-[ffcast](https://github.com/chilicuil/ffcast/) helps the user interactively select a screen region and hands over the geometry to an external command, such as ffmpeg, for screen recording. This is a custom version for POSIX sh shells, refer to [lolilolicon](https://github.com/lolilolicon/FFcast2) for the original one.
+[ffcast](https://github.com/javier-lopez/ffcast/) helps the user interactively select a screen region and hands over the geometry to an external command, such as ffmpeg, for screen recording. This is a custom version for POSIX sh shells, refer to [lolilolicon](https://github.com/lolilolicon/FFcast2) for the original one.
 
 <p align="center">
 <img src="http://javier.io/assets/img/ffcast.gif" alt="ffcast"/>
